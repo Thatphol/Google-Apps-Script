@@ -1,0 +1,17 @@
+function onEdit(e) {
+  var sheet = e.source.getActiveSheet();
+  var range = e.range;
+  var col = range.getColumn();
+  
+  // ตรวจสอบว่าการแก้ไขเกิดขึ้นในคอลัมน์ G (หมายถึง Checkbox)
+  if (sheet.getName() === "Sheet1" && col === 7) { // 7 คือคอลัมน์ G
+    var isChecked = range.getValue();
+    if (isChecked === true) {
+      var timestamp = new Date();
+      var formattedTimestamp = Utilities.formatDate(timestamp, "GMT+7", "dd-MMM-yyyy HH:mm:ss"); // เปลี่ยนรูปแบบ Timestamp
+      sheet.getRange(range.getRow(), 18).setValue(formattedTimestamp); // 18 คือคอลัมน์ R
+    } else if (isChecked === false) { // เพิ่มเงื่อนไขถ้า Checkbox เป็น FALSE
+      sheet.getRange(range.getRow(), 18).setValue(""); // ล้างค่าในคอลัมน์ R
+    }
+  }
+}
